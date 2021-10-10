@@ -24,7 +24,7 @@ var startGame = function () {
         if (playerHealth > 0) {
             window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
             var pickedEnemyName = enemyNames[i];
-            enemyHealth = 50;
+            enemyHealth = randomNumber(40, 60);
             //pass pickedEnemyName variable into function
             fight(pickedEnemyName);
             if (playerHealth > 0 && i < enemyNames.length - 1) {
@@ -44,6 +44,13 @@ var startGame = function () {
 };
 
 
+// function to generate a random numeric value
+var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+    return value;
+}
+
+
 var endGame = function () {
     //Condition to check player's status
     if (playerHealth > 0) {
@@ -60,6 +67,7 @@ var endGame = function () {
         window.alert("Thank you for playing Robot Gladiators! Come back soon!");
     }
 };
+
 /* function to declare the start of the fight */
 var fight = function (enemyName) {
     while (enemyHealth > 0 && playerHealth > 0) {
@@ -73,7 +81,7 @@ var fight = function (enemyName) {
             // if yes, leave fight
             if (confirmSkip) {
                 window.alert(playerName + " has decided to skip this fight. Goodbye!");
-                playerMoney -= 10;
+                playerMoney = Math.max(0, playerMoney - 10);
                 console.log("playerMoney", playerMoney);
                 break;
             }
@@ -81,7 +89,8 @@ var fight = function (enemyName) {
 
         // if player chooses to fight, then fight
         // player attack
-        enemyHealth -= playerAttack;
+        var damage = randomNumber(playerAttack - 3, playerAttack);
+        enemyHealth = Math.max(0, enemyHealth - damage);
         console.log(playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " still remaining.");
 
         // check enemy health
@@ -94,7 +103,8 @@ var fight = function (enemyName) {
         }
 
         // enemy attack
-        playerHealth -= enemyAttack;
+        var damage = randomNumber(enemyAttack - 3, enemyAttack);
+        playerHealth = Math.max(0, playerHealth - damage);
         console.log(enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " still remaining.");
 
         // check player health
@@ -118,7 +128,7 @@ var shop = function () {
         case "REFILL": // new case
         case "refill":
             if (playerMoney >= 7) {
-                window.alert("Refillingp layer's health by 20 for 7 dollars");
+                window.alert("Refilling player's health by 20 for 7 dollars");
 
                 // increase health and decrease money
                 playerHealth += 20;
