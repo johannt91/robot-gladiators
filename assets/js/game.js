@@ -27,8 +27,8 @@ var playerInfo = {
     },
     refillHealth: function () {
         if (this.money >= 7) {
-            window.alert("Refilling player's health by 30 for 7 dollars.");
-            this.health += 30;
+            window.alert("Refilling player's health by 50 for 7 dollars.");
+            this.health += 50;
             this.money -= 7;
         } else {
             window.alert("You don't have enough money!")
@@ -92,11 +92,20 @@ var startGame = function () {
 
 
 var endGame = function () {
+    window.alert("The game has now ended. Let's see how you did!");
+
+    var highScore = localStorage.getItem("highscore");
+    if(highScore === null) {
+        highScore = 0;
+    }
     //Condition to check player's status
-    if (playerInfo.health > 0) {
-        window.alert("The game has now ended. Let's see how you did!");
+    if (playerInfo.money > highScore) {
+        localStorage.setItem("highscore", playerInfo.money);
+        localStorage.setItem("name", playerInfo.name);
+
+        alert(playerInfo.name + " now has a high score of " + playerInfo.money + "!");
     } else {
-        window.alert("You've lost your robot in battle.");
+        window.alert(playerInfo.name + " did not beat the high score of " + highScore + "... Better luck next time!");
     }
 
     var playAgainConfirm = window.confirm("Would you like to play again?");
